@@ -122,6 +122,7 @@ module Galerts
     def create(query, options = {})
       alert = Alert.new(query, options)
 
+      Rails.logger.info(alerts_page.to_s)
       x = alerts_page.css('div#gb-main div.main-page script').text.split(',').grep(/AMJH/).first.tr('"/\"','')
       alert.data_id_2 = alerts_page.css('div#gb-main div.main-page script').text.split(',').grep(/AB2X/).first.tr('"/\"','').tr('\]','')
       response = @agent.post("#{CREATE_ALERT_URL}x=#{x}", build_params(alert, 0), {'Content-Type' => 'application/x-www-form-urlencoded'})
